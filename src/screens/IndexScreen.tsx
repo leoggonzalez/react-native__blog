@@ -15,7 +15,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 export type RootStackParamList = {
   blogs: undefined;
-  show: undefined;
+  show: { itemId?: string };
 };
 
 export function IndexScreen(): JSX.Element {
@@ -29,7 +29,9 @@ export function IndexScreen(): JSX.Element {
         data={state}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
-          <TouchableOpacity onPress={() => navigation.navigate('show')}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('show', { itemId: item.id })}
+          >
             <View style={styles.row}>
               <View>
                 <Text style={styles.title}>{item.title}</Text>
