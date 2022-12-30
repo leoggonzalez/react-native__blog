@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button } from 'react-native';
+import { TouchableOpacity } from 'react-native';
 import {
   createNativeStackNavigator,
   NativeStackNavigationProp,
@@ -8,6 +8,7 @@ import { useNavigation } from '@react-navigation/native';
 import { HomeScreen } from './HomeScreen';
 import { ShowScreen } from './ShowScreen';
 import { CreateScreen } from './CreateScreen';
+import { Ionicons } from '@expo/vector-icons';
 
 export type RootStackParamList = {
   blogs: undefined;
@@ -29,10 +30,9 @@ export function IndexScreen(): JSX.Element {
         options={{
           headerRight: () => {
             return (
-              <Button
-                title="Create"
-                onPress={() => navigation.navigate('create')}
-              />
+              <TouchableOpacity onPress={() => navigation.navigate('create')}>
+                <Ionicons name="add" size={24} color="black" />
+              </TouchableOpacity>
             );
           },
         }}
