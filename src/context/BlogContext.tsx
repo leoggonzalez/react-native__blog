@@ -7,8 +7,13 @@ interface Post {
   title?: string;
 }
 
-function blogReducer(state: Post[], action: { type: string }): Post[] {
+function blogReducer(
+  state: Post[],
+  action: { type: string; payload?: any }
+): Post[] {
   switch (action.type) {
+    case 'delete_blogpost':
+      return state.filter((item) => item.id !== action.payload);
     case 'add_blogpost':
       const id = uuidv4();
 
@@ -25,15 +30,23 @@ function blogReducer(state: Post[], action: { type: string }): Post[] {
 }
 
 function addBlogPost(
-  dispatch: ({ type }: { type: string }) => void
-): () => void {
-  return () => {
-    dispatch({ type: 'add_blogpost' });
+  dispatch: ({ type }: { type: string; payload: { title?: string } }) => void
+): (payload: { title?: string }) => void {
+  return (payload) => {
+    dispatch({ type: 'add_blogpost', payload });
+  };
+}
+
+function deleteBlogPost(
+  dispatch: ({ type }: { type: string; payload?: string }) => void
+): (id?: string) => void {
+  return (id) => {
+    dispatch({ type: 'delete_blogpost', payload: id });
   };
 }
 
 export const { Context, Provider } = createDataContext(
   blogReducer,
-  { addBlogPost },
+  { addBlogPost, deleteBlogPost },
   []
 );
